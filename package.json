@@ -3,6 +3,10 @@
   "version": "0.0.14",
   "description": "An implementation of the mediator pattern for use with WFM",
   "main": "lib/angular/mediator-ng.js",
+  "scripts": {
+    "eslint": "eslint lib/",
+    "eslint-fix": "eslint --fix lib/"
+  },
   "keywords": [
     "wfm",
     "mediator"
@@ -14,5 +18,8 @@
     "mediator-js": "^0.9.9",
     "q": "^1.4.1",
     "shortid": "^2.2.6"
+  },
+  "devDependencies": {
+    "eslint": "^3.6.1"
   }
 }
