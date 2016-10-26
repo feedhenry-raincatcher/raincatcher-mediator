@@ -26,7 +26,7 @@ This module is packaged in a CommonJS format, exporting the name of the Angular 
 
 ```javascript
 angular.module('app', [
-, require('fh-wfm-mediator')
+, require('raincatcher-mediator')
 ...
 ])
 ```
@@ -44,5 +44,5 @@ Inject the `mediator` service to broadcast and subscribe to events
 Require the module to get an instance of the mediator.  Be sure to use that same instance throughout the application to maintain a single list of subscribers.
 
 ```javascript
-mediator = require('fh-wfm-mediator/lib/mediator')
+mediator = require('raincatcher-mediator/lib/mediator')
 ```
