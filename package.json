@@ -1,13 +1,13 @@
 {
-  "name": "fh-wfm-mediator",
+  "name": "raincatcher-mediator",
   "version": "0.0.14",
-  "description": "An implementation of the mediator pattern for use with WFM",
+  "description": "An implementation of the mediator pattern for use with Raincatcher",
   "main": "lib/angular/mediator-ng.js",
   "scripts": {
     "test": "grunt"
   },
   "keywords": [
-    "wfm",
+    "raincatcher",
     "mediator"
   ],
   "author": "Brian Leathem",
