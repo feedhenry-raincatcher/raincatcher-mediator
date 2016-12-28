@@ -3,6 +3,7 @@
   "version": "0.0.15",
   "description": "An implementation of the mediator pattern for use with WFM",
   "main": "lib/angular/mediator-ng.js",
+  "repository": "https://github.com/feedhenry-raincatcher/raincatcher-mediator",
   "scripts": {
     "test": "grunt",
     "vuln": "nsp check"
@@ -22,6 +23,11 @@
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-eslint": "^18.0.0",
+    "grunt-mocha-test": "^0.13.2",
+    "mocha": "^3.2.0",
     "nsp": "^2.6.2"
+  },
+  "optionalDependencies": {
+    "fh-wfm-simple-store": "0.0.1"
   }
 }
