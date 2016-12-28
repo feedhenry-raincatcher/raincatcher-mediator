@@ -4,7 +4,8 @@
   "description": "An implementation of the mediator pattern for use with WFM",
   "main": "lib/angular/mediator-ng.js",
   "scripts": {
-    "test": "grunt"
+    "test": "grunt",
+    "vuln": "nsp check"
   },
   "keywords": [
     "wfm",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-eslint": "^18.0.0"
+    "grunt-eslint": "^18.0.0",
+    "nsp": "^2.6.2"
   }
 }
