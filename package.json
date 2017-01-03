@@ -28,6 +28,6 @@
     "nsp": "^2.6.2"
   },
   "optionalDependencies": {
-    "fh-wfm-simple-store": "0.0.1"
+    "fh-wfm-simple-store": "0.0.2"
   }
 }
