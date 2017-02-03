@@ -12,9 +12,10 @@ module.exports = function(grunt) {
     },
     mochaTest: {
       test: {
-        src: ['./**/*-spec.js', 'test/*-spec.js'],
+        src: ['./**/*-spec.ts', 'test/*-spec.ts'],
         options: {
           reporters: 'Spec',
+          require: 'ts-node/register',
           logErrors: true,
           timeout: 10000,
           run: true

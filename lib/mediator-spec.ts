@@ -1,8 +1,9 @@
-var mediator = require('../lib/mediator');
-var Promise = require('bluebird');
-var assert = require('chai').assert;
+import mediator from '../lib/mediator'
+import * as Promise from 'bluebird'
+import { assert } from 'chai'
+import * as sinon from 'sinon';
+import 'mocha';
 
-var sinon = require('sinon');
 describe('mediator', function() {
   describe('#subscribe',function() {
     const TEST_CHANNEL = "test_channel";
@@ -72,7 +73,7 @@ describe('mediator', function() {
       mediator.publish(TEST_CHANNEL, promised);
       setTimeout(function() {
         sinon.assert.called(promiseCB);
-        sinon.assert.calledWith(promiseCB.getCall(0),"WUHU");
+        sinon.assert.calledWith(promiseCB,"WUHU");
         done();
       }, 3);
     });
@@ -130,7 +131,7 @@ describe('mediator', function() {
       mediator.publish(TEST_CHANNEL,123456);
       sinon.assert.calledOnce(firstCB);
       sinon.assert.calledOnce(secondCB);
-      mediator.remove(TEST_CHANNEL,secondCB);
+      mediator.remove(TEST_CHANNEL, secondCB);
       mediator.publish(TEST_CHANNEL,"another portion of data");
       sinon.assert.calledTwice(firstCB);
       sinon.assert.calledOnce(secondCB);
