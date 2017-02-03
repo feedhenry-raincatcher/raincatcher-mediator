@@ -1,0 +1,22 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "quotemark": [
+            true,
+            "single"
+        ],
+        "only-arrow-functions": [
+            false
+        ],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        ],
+        "max-classes-per-file": [
+            false
+        ]
+    }
+}

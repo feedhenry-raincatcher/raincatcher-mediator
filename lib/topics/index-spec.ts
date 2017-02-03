@@ -1,12 +1,12 @@
-import Topics from './index';
-import { assert } from 'chai';
-import mediator from '../mediator';
 import * as Promise from 'bluebird';
+import { assert } from 'chai';
 import * as sinon from 'sinon';
+import mediator from '../mediator';
+import Topics from './index';
 
-interface ErrorWithDataId extends Error {
+interface IErrorWithDataId extends Error {
   /** Identifier to use as a suffix on the 'error:' topic */
-  id?: string
+  id?: string;
 }
 
 describe('Topics', function () {
@@ -80,7 +80,7 @@ describe('Topics', function () {
     });
     it('should use error.id as a uid for request error calls', function(done) {
       topics.on('create', function() {
-        let e: ErrorWithDataId = new Error('kaboom');
+        let e: IErrorWithDataId = new Error('kaboom');
         // add metadata to error object
         e.id = 'trever';
         return Promise.reject(e);
@@ -99,8 +99,8 @@ describe('Topics', function () {
       mediator.publish(topics.getTopic('create'), {id: 'trever'});
     });
     it('should allow for async handlers that do not return anything', function(done) {
-      var otherTopicSubscriber = sinon.spy();
-      var sameTopicSubscriber = sinon.spy();
+      let otherTopicSubscriber = sinon.spy();
+      let sameTopicSubscriber = sinon.spy();
 
       topics.on('create', function() {
         setTimeout(function() {

@@ -17,8 +17,7 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "lodash": "^4.7.0",
-    "mediator-js": "^0.9.9",
-    "ts-node": "^2.0.0"
+    "mediator-js": "^0.9.9"
   },
   "devDependencies": {
     "@types/bluebird": "^3.0.37",
@@ -35,6 +34,7 @@
     "nsp": "^2.6.2",
     "sinon": "^1.17.7",
     "ts-node": "^2.0.0",
-    "typescript": "^2.1.5"
+    "tslint": "^4.4.2",
+    "typescript": "2.1.5"
   }
 }
