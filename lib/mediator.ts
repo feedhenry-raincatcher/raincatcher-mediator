@@ -13,8 +13,8 @@ declare class OriginalMediator {
   /**
    * Removes one or all listeners from a topic
    * @param topic The topic from which to remove listeners
-   * @param which The identifier for a topic, can be the handler itself, its unique id or
-   *  the entire Subscription object
+   * @param which The identifier for a subscription, can be the handler itself, its unique id or
+   *  the entire Subscription object, if not present, will remove all subscriptions from the topic
    */
   public remove(topic: string, which?: string | ISubscription | (() => void))
   public publish(topic: string, data?: any, options?: Object)
