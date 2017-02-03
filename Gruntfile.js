@@ -6,13 +6,13 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     eslint: {
       src: [
-        "lib/**/*.js",
+        "src/**/*.js",
         "test/**/*.js"
       ]
     },
     tslint: {
       src: [
-        "lib/**/*.ts",
+        "src/**/*.ts",
         "test/**/*.ts"
       ]
     },

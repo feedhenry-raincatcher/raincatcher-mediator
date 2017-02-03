@@ -37,7 +37,7 @@ export interface IRequestOptions {
   timeout?: number;
 }
 
-export class Mediator extends Base {
+export class Mediator extends BaseMediator {
   /**
    * A version of {@link once} that returns a Promise
    * @param  {String} channel   Channel identifier to wait on a single message

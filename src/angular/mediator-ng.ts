@@ -24,6 +24,3 @@ angular.module('wfm.core.mediator', ['ng'])
 });
 
 export default 'wfm.core.mediator';
-export { mediator }
-export * from '../mediator';
-export {default as Topics} from '../topics'
