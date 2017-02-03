@@ -2,6 +2,11 @@ import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import { IRequestOptions, Mediator } from '../mediator';
 
+export interface IErrorWithDataId extends Error {
+  /** Identifier to use as a suffix on the 'error:' topic */
+  id?: string;
+}
+
 export default class Topics {
   public mediator: Mediator;
   public prefix: string;
@@ -71,7 +76,7 @@ export default class Topics {
    *                             that will be treated as the result of a `request`
    * @return {Topics}          Returns self for chaining
    */
-  public on(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => any | Promise<any>) {
+  public on<T>(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => T | Promise<T>) {
     let topic = this.getTopic(method);
     this.addSubscription(topic, this.wrapInMediatorPromise(method, fn));
     return this;
@@ -83,7 +88,7 @@ export default class Topics {
    * @param  {Function} fn     Handler function for the topic
    * @return {Topics}          Returns self for chaining
    */
-  public onDone(this: Topics, method: string, fn: (this: Topics) => void) {
+  public onDone(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => void) {
     let topic = this.getTopic(method, 'done');
     this.addSubscription(topic, fn.bind(this));
     return this;
@@ -95,7 +100,7 @@ export default class Topics {
    * @param  {Function} fn     Handler function for the topic
    * @return {Topics}          Returns self for chaining
    */
-  public onError(this: Topics, method: string, fn: (this: Topics) => void) {
+  public onError(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => void) {
     let topic = this.getTopic(method, 'error');
     this.addSubscription(topic, fn.bind(this));
     return this;
@@ -132,7 +137,9 @@ export default class Topics {
    * @param  {Function} fn     Handler to wrap, can return a value or a Promise, will be invoked bound to self
    * @return {Function}        Wrapped handler
    */
-  private wrapInMediatorPromise<T, TRet>(method: string, fn: (this: Topics, T) => TRet): (T) => Promise<TRet> {
+  private wrapInMediatorPromise<T>(method: string, fn: (this: Topics, ...params: any[]) => T | Promise<T>):
+  (...params: any[]) => Promise<T> {
+
     const self = this;
     function publishDone(result) {
       if (_.isUndefined(result)) {
@@ -147,7 +154,7 @@ export default class Topics {
       self.mediator.publish(topic, result);
       return result;
     }
-    function publishError(error) {
+    function publishError(error: IErrorWithDataId) {
       let topic = self.getTopic(method, 'error');
       if (_.has(error, 'id')) {
         topic = [topic, error.id].join(':');

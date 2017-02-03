@@ -2,12 +2,7 @@ import * as Promise from 'bluebird';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import mediator from '../mediator';
-import Topics from './index';
-
-interface IErrorWithDataId extends Error {
-  /** Identifier to use as a suffix on the 'error:' topic */
-  id?: string;
-}
+import Topics, {IErrorWithDataId} from './index';
 
 describe('Topics', function () {
   let topics: Topics;
