@@ -44,7 +44,7 @@ export class Mediator extends Base {
    * @return {Promise}          A promise that is fulfilled with the next published
    *                             message in the channel
    */
-  public promise(channel: string, options?: Object, context?: any) {
+  public promise(channel: string, options?: Object, context?: any): Promise.Thenable<any> {
     let self = this;
     return new Promise(function(resolve) {
       self.once(channel, resolve, options, context);
