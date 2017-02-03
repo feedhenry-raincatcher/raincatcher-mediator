@@ -3,10 +3,12 @@
     "module": "commonjs",
     "sourceMap": true,
     "target": "es5",
-    "outDir": "dist",
+    "outDir": "lib",
     "declaration": true
   },
-  "include": [
-    "lib/**/*.ts"
+  "files": [
+    "src/mediator.ts",
+    "src/angular/mediator-ng.ts",
+    "src/topics/index.ts"
   ]
 }

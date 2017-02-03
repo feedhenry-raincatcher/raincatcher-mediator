@@ -6,8 +6,14 @@
   "repository": "https://github.com/feedhenry-raincatcher/raincatcher-mediator",
   "scripts": {
     "test": "grunt",
-    "vuln": "nsp check"
+    "vuln": "nsp check",
+    "prepublish": "tsc"
   },
+  "files": [
+    "lib/angular/mediator-ng.js",
+    "lib/mediator.js",
+    "lib/topics/index.js"
+  ],
   "keywords": [
     "wfm",
     "mediator"
