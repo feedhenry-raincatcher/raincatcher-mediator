@@ -27,8 +27,7 @@ describe('mediator', function() {
       let testArray = ['Hello', 'mediator', ', ', 'how', 'are', 'you?'];
       let testString = 'Hello World!';
       let testObject = {
-        name: 'Testing Object',
-        value: undefined
+        name: 'Testing Object'
       };
       mediator.subscribe(TEST_CHANNEL, subscribeCb);
 

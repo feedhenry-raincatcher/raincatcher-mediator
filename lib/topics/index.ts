@@ -1,9 +1,13 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import { IRequestOptions, Mediator } from '../mediator';
+import { HandlerFn, IRequestOptions, ISubscription, Mediator } from '../mediator';
 
 export interface IErrorWithDataId extends Error {
   /** Identifier to use as a suffix on the 'error:' topic */
+  id?: string;
+}
+
+interface IHasId {
   id?: string;
 }
 
@@ -11,7 +15,9 @@ export default class Topics {
   public mediator: Mediator;
   public prefix: string;
   public entity: string;
-  private subscriptions: Object;
+  private subscriptions: {
+    [key: string]: ISubscription;
+  };
 
   constructor (mediator: Mediator) {
     this.mediator = mediator;
@@ -47,7 +53,7 @@ export default class Topics {
    * @param {string}   topic topic id
    * @param {Function} fn    handler for the topic
    */
-  public addSubscription(topic, fn) {
+  public addSubscription(topic: string, fn: HandlerFn) {
     this.subscriptions[topic] = this.mediator.subscribe(topic, fn);
   };
 
@@ -76,7 +82,7 @@ export default class Topics {
    *                             that will be treated as the result of a `request`
    * @return {Topics}          Returns self for chaining
    */
-  public on<T>(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => T | Promise<T>) {
+  public on<T>(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => T | Promise.Thenable<T>) {
     let topic = this.getTopic(method);
     this.addSubscription(topic, this.wrapInMediatorPromise(method, fn));
     return this;
@@ -137,11 +143,12 @@ export default class Topics {
    * @param  {Function} fn     Handler to wrap, can return a value or a Promise, will be invoked bound to self
    * @return {Function}        Wrapped handler
    */
-  private wrapInMediatorPromise<T>(method: string, fn: (this: Topics, ...params: any[]) => T | Promise<T>):
-  (...params: any[]) => Promise<T> {
+  private wrapInMediatorPromise<T extends IHasId>(method: string,
+                                                  fn: (this: Topics, ...params: any[]) => T | Promise.Thenable<T>):
+    (...params: any[]) => Promise.Thenable<T> {
 
     const self = this;
-    function publishDone(result) {
+    function publishDone(result: T | {id: any}) {
       if (_.isUndefined(result)) {
         return;
       }

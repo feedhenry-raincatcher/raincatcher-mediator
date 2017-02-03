@@ -1,15 +1,9 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import { Mediator as OriginalMediator } from 'mediator-js';
+import * as mediatorJs from 'mediator-js';
 
-/** Mediator subscription identifier */
-interface ISubscription {
-  /** Subscription identifier, used to read/remove a single subscriber from a topic */
-  id: string;
-}
-
-declare class OriginalMediator {
-  public once(topic: string, handler: Function, options?: Object, context?: any): ISubscription
+export declare class Base {
+  public once(topic: string, handler: HandlerFn, options?: Object, context?: any): ISubscription
   /**
    * Removes one or all listeners from a topic
    * @param topic The topic from which to remove listeners
@@ -18,7 +12,18 @@ declare class OriginalMediator {
    */
   public remove(topic: string, which?: string | ISubscription | (() => void))
   public publish(topic: string, data?: any, options?: Object)
-  public subscribe(topic: string, handler: (...params: any[]) => void): ISubscription
+  public subscribe(topic: string, handler: HandlerFn): ISubscription
+  public subscribeForScope(topic: string, scope: angular.IScope, fn: HandlerFn)
+}
+
+export let BaseMediator: typeof Base = mediatorJs.Mediator;
+
+export type HandlerFn = (...params: any[]) => void;
+
+/** Mediator subscription identifier */
+export interface ISubscription {
+  /** Subscription identifier, used to read/remove a single subscriber from a topic */
+  id: string;
 }
 
 export interface IRequestOptions {
@@ -32,7 +37,7 @@ export interface IRequestOptions {
   timeout?: number;
 }
 
-export class Mediator extends OriginalMediator {
+export class Mediator extends Base {
   /**
    * A version of {@link once} that returns a Promise
    * @param  {String} channel   Channel identifier to wait on a single message
@@ -66,7 +71,7 @@ export class Mediator extends OriginalMediator {
    * @return {Promise}           A Promise that gets fulfilled with the result of the request
    *                               or rejected with the error from the above topics
    */
-  public request(topic: string, parameters?, options: IRequestOptions = {}): Promise<any> {
+  public request(topic: string, parameters?, options: IRequestOptions = {}): Promise.Thenable<any> {
     const self = this;
     const topics = {
       done: options.doneTopic || 'done:' + topic,

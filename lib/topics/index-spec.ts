@@ -2,12 +2,15 @@ import * as Promise from 'bluebird';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import mediator from '../mediator';
-import Topics, {IErrorWithDataId} from './index';
+import Topics, { IErrorWithDataId } from './index';
+
+const PREFIX = 'wfm:cloud';
+const ENTITY = 'user';
 
 describe('Topics', function () {
   let topics: Topics;
   beforeEach(function() {
-    topics = new Topics(mediator).withPrefix('wfm:cloud').withEntity('user');
+    topics = new Topics(mediator).withPrefix(PREFIX).withEntity(ENTITY);
   });
   afterEach(function() {
     topics.unsubscribeAll();
