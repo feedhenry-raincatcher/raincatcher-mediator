@@ -111,19 +111,18 @@ export class Mediator extends BaseMediator {
     } else {
       args.push(parameters);
     }
-    self.publish.apply(mediator, args);
 
-    return new Promise(function(resolve, reject) {
+    let returnPromise = new Promise(function(resolve, reject) {
       subs.done = self.once(topics.done, resolve);
       subs.error = mediator.once(topics.error, reject);
-    })
-    .timeout(options.timeout, new Error('Mediator request timeout for topic ' +  topic))
-    .tap(unsubscribe)
-    .catch(function(e) {
-      unsubscribe();
-      // still forward the rejection to clients
-      throw e;
     });
+    self.publish.apply(mediator, args);
+
+    return returnPromise
+      .timeout(options.timeout, new Error('Mediator request timeout for topic ' +  topic))
+      .finally(function() {
+        unsubscribe();
+      });
   };
 }
 
