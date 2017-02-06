@@ -7,13 +7,8 @@
   "scripts": {
     "test": "grunt",
     "vuln": "nsp check",
-    "build": "rm -rf lib/; tsc && babel ./lib -d ./lib"
+    "build": "rm -rf lib/; tsc"
   },
-  "files": [
-    "lib/angular/mediator-ng.js",
-    "lib/mediator.js",
-    "lib/topics/index.js"
-  ],
   "keywords": [
     "wfm",
     "mediator"
@@ -31,14 +26,10 @@
     "@types/chai": "^3.4.34",
     "@types/lodash": "^4.14.52",
     "@types/mocha": "^2.2.38",
+    "@types/node": "^7.0.5",
     "@types/sinon": "^1.16.34",
-    "babel": "^6.5.2",
-    "babel-cli": "^6.22.2",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-latest": "^6.22.0",
     "chai": "^3.5.0",
     "grunt": "^1.0.1",
-    "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "^0.13.2",
     "grunt-tslint": "^4.0.0",
     "load-grunt-tasks": "^3.5.2",

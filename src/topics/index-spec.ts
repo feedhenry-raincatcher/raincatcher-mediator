@@ -1,9 +1,9 @@
 import * as Promise from 'bluebird';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import mediator from '../mediator';
 import IErrorWithDataId from './IErrorWithDataId';
-import Topics from './index';
+import mediator = require('../mediator');
+import Topics = require('./index');
 
 const PREFIX = 'wfm:cloud';
 const ENTITY = 'user';

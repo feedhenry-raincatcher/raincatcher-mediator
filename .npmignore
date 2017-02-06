@@ -1,0 +1,9 @@
+**/*.ts
+*-spec.js*
+src/
+test/
+sonar-project.properties
+.*
+tslint.json
+tsconfig.json
+Gruntfile.js

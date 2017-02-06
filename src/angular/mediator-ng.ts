@@ -1,5 +1,5 @@
 import * as angular from 'angular';
-import mediator from '../mediator';
+import mediator = require('../mediator');
 
 angular.module('wfm.core.mediator', ['ng'])
 

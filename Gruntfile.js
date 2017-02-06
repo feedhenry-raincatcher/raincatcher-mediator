@@ -4,12 +4,6 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    eslint: {
-      src: [
-        "src/**/*.js",
-        "test/**/*.js"
-      ]
-    },
     tslint: {
       src: [
         "src/**/*.ts",
@@ -31,6 +25,6 @@ module.exports = function(grunt) {
   });
   grunt.registerTask('mocha',['mochaTest']);
   grunt.registerTask('unit',['mocha']);
-  grunt.registerTask('lint', ['eslint', 'tslint']);
+  grunt.registerTask('lint', ['tslint']);
   grunt.registerTask('default', ['lint', 'mochaTest']);
 };

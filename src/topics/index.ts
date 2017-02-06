@@ -10,7 +10,7 @@ interface IHasId {
   id?: string;
 }
 
-export default class Topics {
+class Topics {
   public mediator: Mediator;
   public prefix: string;
   public entity: string;
@@ -173,4 +173,5 @@ export default class Topics {
       .catch(publishError);
     };
   }
-}
+};
+export = Topics;

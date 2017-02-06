@@ -1,10 +1,11 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import * as mediatorJs from 'mediator-js';
 import BaseMediator from './BaseMediator';
 import HandlerFn from './HandlerFn';
 import IRequestOptions from './IRequestOptions';
 import ISubscription from './ISubscription';
+// tslint:disable-next-line:no-var-requires
+const mediatorJs: any = require('mediator-js');
 
 export let Base: typeof BaseMediator = mediatorJs.Mediator;
 
