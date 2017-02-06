@@ -2,7 +2,8 @@ import * as Promise from 'bluebird';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
 import mediator from '../mediator';
-import Topics, { IErrorWithDataId } from './index';
+import IErrorWithDataId from './IErrorWithDataId';
+import Topics from './index';
 
 const PREFIX = 'wfm:cloud';
 const ENTITY = 'user';

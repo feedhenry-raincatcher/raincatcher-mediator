@@ -6,9 +6,7 @@
     "outDir": "lib",
     "declaration": true
   },
-  "files": [
-    "src/mediator.ts",
-    "src/angular/mediator-ng.ts",
-    "src/topics/index.ts"
+  "include": [
+    "src/**/*.ts"
   ]
 }

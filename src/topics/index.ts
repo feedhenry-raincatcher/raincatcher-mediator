@@ -1,11 +1,10 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import { HandlerFn, IRequestOptions, ISubscription, Mediator } from '../mediator';
-
-export interface IErrorWithDataId extends Error {
-  /** Identifier to use as a suffix on the 'error:' topic */
-  id?: string;
-}
+import HandlerFn from '../mediator/HandlerFn';
+import IRequestOptions from '../mediator/IRequestOptions';
+import ISubscription from '../mediator/ISubscription';
+import Mediator from '../mediator/mediator';
+import IErrorWithDataId from './IErrorWithDataId';
 
 interface IHasId {
   id?: string;

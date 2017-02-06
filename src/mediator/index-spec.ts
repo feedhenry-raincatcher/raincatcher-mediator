@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import { assert } from 'chai';
 import * as sinon from 'sinon';
-import mediator from '../lib/mediator';
+import mediator from './index';
 
 describe('mediator', function() {
   describe('#subscribe', function() {

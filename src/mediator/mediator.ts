@@ -1,43 +1,14 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import * as mediatorJs from 'mediator-js';
+import BaseMediator from './BaseMediator';
+import HandlerFn from './HandlerFn';
+import IRequestOptions from './IRequestOptions';
+import ISubscription from './ISubscription';
 
-export declare class Base {
-  public once(topic: string, handler: HandlerFn, options?: Object, context?: any): ISubscription
-  /**
-   * Removes one or all listeners from a topic
-   * @param topic The topic from which to remove listeners
-   * @param which The identifier for a subscription, can be the handler itself, its unique id or
-   *  the entire Subscription object, if not present, will remove all subscriptions from the topic
-   */
-  public remove(topic: string, which?: string | ISubscription | (() => void))
-  public publish(topic: string, data?: any, options?: Object)
-  public subscribe(topic: string, handler: HandlerFn): ISubscription
-  public subscribeForScope(topic: string, scope: angular.IScope, fn: HandlerFn)
-}
+export let Base: typeof BaseMediator = mediatorJs.Mediator;
 
-export let BaseMediator: typeof Base = mediatorJs.Mediator;
-
-export type HandlerFn = (...params: any[]) => void;
-
-/** Mediator subscription identifier */
-export interface ISubscription {
-  /** Subscription identifier, used to read/remove a single subscriber from a topic */
-  id: string;
-}
-
-export interface IRequestOptions {
-  /** Override for the unique id */
-  uid?: string;
-  /** Base topic to subscribe for the result of the request, gets prefixed with 'done:' */
-  doneTopic?: string;
-  /** Base topic to subscribe for errors on the request, gets prefixed with 'error:' */
-  errorTopic?: string;
-  /** Time in ms until timeout error, defaults to 2000 */
-  timeout?: number;
-}
-
-export class Mediator extends BaseMediator {
+export default class Mediator extends Base {
   /**
    * A version of {@link once} that returns a Promise
    * @param  {String} channel   Channel identifier to wait on a single message
@@ -114,9 +85,9 @@ export class Mediator extends BaseMediator {
 
     let returnPromise = new Promise(function(resolve, reject) {
       subs.done = self.once(topics.done, resolve);
-      subs.error = mediator.once(topics.error, reject);
+      subs.error = self.once(topics.error, reject);
     });
-    self.publish.apply(mediator, args);
+    self.publish.apply(self, args);
 
     return returnPromise
       .timeout(options.timeout, new Error('Mediator request timeout for topic ' +  topic))
@@ -125,6 +96,3 @@ export class Mediator extends BaseMediator {
       });
   };
 }
-
-let mediator = new Mediator();
-export default mediator;
