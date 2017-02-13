@@ -25,8 +25,8 @@ var mediator = require('fh-wfm-mediator');
 var Topics = require('fh-wfm-mediator/lib/topics');
 
 var topics = new Topics(mediator)
-  .prefix('wfm')
-  .entity('user')
+  .withPrefix('wfm')
+  .withEntity('user')
   // This will subscribe to wfm:user:read
   // and publish results to done:wfm:user:read:{id}
   // and errors to error:wfm:user:read:{id}
@@ -72,7 +72,7 @@ Inject the `mediator` service to broadcast and subscribe to events
 ```javascript
 .controller('MyController', function (mediator) {
   ...
-}
+})
 ```
 
 ## Usage in an node.js backend
@@ -81,3 +81,7 @@ Require the module to get an instance of the mediator.  Be sure to use that same
 ```javascript
 mediator = require('fh-wfm-mediator/lib/mediator')
 ```
+
+# NPM Publishing
+
+This module is written in TypeScript, in order to publish it to npm as compiled JavaScript files along with TypeScript typings and source maps, run `npm run build` before `npm publish`.
