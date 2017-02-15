@@ -3,6 +3,7 @@
   "version": "0.0.15",
   "description": "An implementation of the mediator pattern for use with WFM",
   "main": "lib/angular/mediator-ng.js",
+  "types": "lib/angular/mediator-ng.d.ts",
   "repository": "https://github.com/feedhenry-raincatcher/raincatcher-mediator",
   "scripts": {
     "test": "grunt",
@@ -18,13 +19,13 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "lodash": "^4.7.0",
-    "mediator-js": "^0.9.9"
+    "mediator-js": "^0.9.9",
+    "@types/bluebird": "^3.0.37",
+    "@types/angular": "^1.6.3",
+    "@types/lodash": "^4.14.52"
   },
   "devDependencies": {
-    "@types/angular": "^1.6.3",
-    "@types/bluebird": "^3.0.37",
     "@types/chai": "^3.4.34",
-    "@types/lodash": "^4.14.52",
     "@types/mocha": "^2.2.38",
     "@types/node": "^7.0.5",
     "@types/sinon": "^1.16.34",
