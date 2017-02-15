@@ -21,10 +21,25 @@ module.exports = function(grunt) {
           run: true
         }
       }
+    },
+    clean: ['lib'],
+    ts: {
+      default: {
+        tsconfig: true
+      }
+    },
+    copy: {
+      main: {
+        expand: true,
+        cwd: 'src',
+        src: '**/*.d.ts',
+        dest: 'lib'
+      }
     }
   });
   grunt.registerTask('mocha',['mochaTest']);
   grunt.registerTask('unit',['mocha']);
   grunt.registerTask('lint', ['tslint']);
+  grunt.registerTask('build', ['clean', 'ts', 'copy']);
   grunt.registerTask('default', ['lint', 'mochaTest']);
 };

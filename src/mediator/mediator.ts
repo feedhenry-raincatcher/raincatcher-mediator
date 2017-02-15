@@ -1,15 +1,15 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import BaseMediator from './BaseMediator';
 import HandlerFn from './HandlerFn';
+import IBaseMediator from './IBaseMediator';
 import IRequestOptions from './IRequestOptions';
 import ISubscription from './ISubscription';
 // tslint:disable-next-line:no-var-requires
 const mediatorJs: any = require('mediator-js');
 
-export let Base: typeof BaseMediator = mediatorJs.Mediator;
+export let Base: { new(): IBaseMediator } = mediatorJs.Mediator;
 
-export default class Mediator extends Base {
+export default class Mediator extends Base implements IBaseMediator {
   /**
    * A version of {@link once} that returns a Promise
    * @param  {String} channel   Channel identifier to wait on a single message

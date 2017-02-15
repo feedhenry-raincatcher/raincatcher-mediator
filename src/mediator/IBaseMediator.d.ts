@@ -1,6 +1,6 @@
 import HandlerFn from './HandlerFn';
 import ISubscription from './ISubscription';
-declare class BaseMediator {
+declare class IBaseMediator {
   public once(topic: string, handler: HandlerFn, options?: Object, context?: any): ISubscription
   /**
    * Removes one or all listeners from a topic
@@ -14,4 +14,4 @@ declare class BaseMediator {
   public subscribeForScope(topic: string, scope: angular.IScope, fn: HandlerFn)
 }
 
-export default BaseMediator;
+export default IBaseMediator;

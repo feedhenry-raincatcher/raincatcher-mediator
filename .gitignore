@@ -3,3 +3,5 @@ npm-debug.log
 .idea
 .vscode
 lib/
+.tscache
+.baseDir.ts
