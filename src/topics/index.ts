@@ -60,12 +60,13 @@ class Topics {
    * Builds a topic name out of the configured {@link prefix} and {@link entity}
    * @param  {String} topicName The name of the sub-topic to build
    * @param  {String} prefix    An optional prefix to the final topic, i.e. 'done'
+   * @param  {String} topicUid    An optional prefix to the final topic, i.e. 'done'
    * @return {String}           The complete topic name,
    *                              i.e. {prefix}:{this.prefix}:{this.entity}:{topicName}
    */
-  public getTopic(this: Topics, topicName: string, prefix?: string): string {
+  public getTopic(this: Topics, topicName: string, prefix?: string, topicUid?: string): string {
     // create, done => done:wfm:user:create
-    let parts = _.compact([this.prefix, this.entity, topicName]);
+    const parts = _.compact([this.prefix, this.entity, topicName, topicUid]);
     if (prefix) {
       parts.unshift(prefix);
     }

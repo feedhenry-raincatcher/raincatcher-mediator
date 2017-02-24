@@ -18,11 +18,15 @@ describe('Topics', function () {
   });
   describe('#getTopic', function() {
     it('should return a namespaced topic', function() {
-      assert(topics.getTopic('create'), 'wfm:cloud:user:create');
+      assert.equal(topics.getTopic('create'), 'wfm:cloud:user:create');
     });
     it('should take an optional prefix', function() {
-      assert(topics.getTopic('create', 'done'), 'done:wfm:cloud:user:create');
+      assert.equal(topics.getTopic('create', 'done'), 'done:wfm:cloud:user:create');
     });
+
+    it('should take an optional topic UID', function() {
+      assert.equal(topics.getTopic('create', 'done', 'topicuid'), 'done')
+    })
   });
 
   describe('#on', function() {
