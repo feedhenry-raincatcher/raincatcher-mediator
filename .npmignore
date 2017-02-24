@@ -1,6 +1,6 @@
 **/*.ts
 !**/*.d.ts
-*-spec.js*
+*-spec*
 src/
 test/
 sonar-project.properties
