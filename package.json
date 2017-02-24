@@ -8,7 +8,8 @@
   "scripts": {
     "test": "grunt",
     "vuln": "nsp check",
-    "build": "grunt build"
+    "build": "grunt build",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "wfm",
