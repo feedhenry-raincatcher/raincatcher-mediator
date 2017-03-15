@@ -7,7 +7,6 @@
   "repository": "https://github.com/feedhenry-raincatcher/raincatcher-mediator",
   "scripts": {
     "test": "grunt",
-    "vuln": "nsp check",
     "build": "grunt build",
     "prepublish": "npm run build"
   },
@@ -39,7 +38,6 @@
     "grunt-tslint": "^4.0.0",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^3.2.0",
-    "nsp": "^2.6.2",
     "sinon": "^1.17.7",
     "ts-node": "^2.0.0",
     "tslint": "^4.4.2",
