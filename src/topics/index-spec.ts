@@ -11,7 +11,7 @@ const ENTITY = 'user';
 describe('Topics', function () {
   let topics: Topics;
   beforeEach(function() {
-    topics = new Topics(mediator).withPrefix(PREFIX).withEntity(ENTITY);
+    topics = new Topics(mediator).prefix(PREFIX).entity(ENTITY);
   });
   afterEach(function() {
     topics.unsubscribeAll();
@@ -94,9 +94,11 @@ describe('Topics', function () {
       });
       mediator.publish(topics.getTopic('create'), {id: 'trever'});
     });
-    it('should provide itself as context', function(done) {
+    it('should provide a context containing the prefix, entity, topic and mediator', function(done) {
       topics.on('create', function() {
-        assert.equal(this, topics);
+        assert.equal(this.prefix, PREFIX);
+        assert.equal(this.entity, ENTITY);
+        assert.equal(this.topic, `${PREFIX}:${ENTITY}:create`);
         done();
       });
       mediator.publish(topics.getTopic('create'), {id: 'trever'});
@@ -129,26 +131,12 @@ describe('Topics', function () {
       });
       mediator.publish(topics.getTopic('create', 'done'), {id: 'trever'});
     });
-    it('should provide itself as context', function(done) {
-      topics.onDone('create', function() {
-        assert.equal(this, topics);
-        done();
-      });
-      mediator.publish(topics.getTopic('create', 'done'), {id: 'trever'});
-    });
   });
 
   describe('#onError', function() {
     it('should subscribe to a namespaced error: topic', function(done) {
       topics.onError('create', function(e) {
         assert.equal(e.message, 'kaboom');
-        done();
-      });
-      mediator.publish(topics.getTopic('create', 'error'), new Error('kaboom'));
-    });
-    it('should provide itself as context', function(done) {
-      topics.onError('create', function() {
-        assert.equal(this, topics);
         done();
       });
       mediator.publish(topics.getTopic('create', 'error'), new Error('kaboom'));

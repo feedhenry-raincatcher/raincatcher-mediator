@@ -5,15 +5,13 @@ import IRequestOptions from '../mediator/IRequestOptions';
 import ISubscription from '../mediator/ISubscription';
 import Mediator from '../mediator/mediator';
 import IErrorWithDataId from './IErrorWithDataId';
-
-interface IHasId {
-  id?: string;
-}
+import TopicHandlerFn from './TopicHandlerFn';
+import { ITopicHandlerContext } from './TopicHandlerFn';
 
 class Topics {
   public mediator: Mediator;
-  public prefix: string;
-  public entity: string;
+  private _prefix: string;
+  private _entity: string;
   private subscriptions: {
     [key: string]: ISubscription;
   };
@@ -29,8 +27,8 @@ class Topics {
    * @param  {String} prefix
    * @return {Topics}        returns self for chaining
    */
-  public withPrefix(prefix: string) {
-    this.prefix = prefix;
+  public prefix(prefix: string) {
+    this._prefix = prefix;
     return this;
   };
 
@@ -42,8 +40,8 @@ class Topics {
    * @param  {String} entity
    * @return {Topics}        returns self for chaining
    */
-  public withEntity(entity: string): this {
-    this.entity = entity;
+  public entity(entity: string): this {
+    this._entity = entity;
     return this;
   };
 
@@ -66,7 +64,7 @@ class Topics {
    */
   public getTopic(this: Topics, topicName: string, prefix?: string, topicUid?: string): string {
     // create, done => done:wfm:user:create
-    const parts = _.compact([this.prefix, this.entity, topicName, topicUid]);
+    const parts = _.compact([this._prefix, this._entity, topicName, topicUid]);
     if (prefix) {
       parts.unshift(prefix);
     }
@@ -82,7 +80,7 @@ class Topics {
    *                             that will be treated as the result of a `request`
    * @return {Topics}          Returns self for chaining
    */
-  public on<T>(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => T | Promise.Thenable<T>) {
+  public on<T>(this: Topics, method: string, fn: TopicHandlerFn<T>) {
     let topic = this.getTopic(method);
     this.addSubscription(topic, this.wrapInMediatorPromise(method, fn));
     return this;
@@ -94,7 +92,7 @@ class Topics {
    * @param  {Function} fn     Handler function for the topic
    * @return {Topics}          Returns self for chaining
    */
-  public onDone(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => void) {
+  public onDone(this: Topics, method: string, fn: TopicHandlerFn<void>) {
     let topic = this.getTopic(method, 'done');
     this.addSubscription(topic, fn.bind(this));
     return this;
@@ -106,7 +104,7 @@ class Topics {
    * @param  {Function} fn     Handler function for the topic
    * @return {Topics}          Returns self for chaining
    */
-  public onError(this: Topics, method: string, fn: (this: Topics, ...params: any[]) => void) {
+  public onError(this: Topics, method: string, fn: TopicHandlerFn<void>) {
     let topic = this.getTopic(method, 'error');
     this.addSubscription(topic, fn.bind(this));
     return this;
@@ -143,8 +141,7 @@ class Topics {
    * @param  {Function} fn     Handler to wrap, can return a value or a Promise, will be invoked bound to self
    * @return {Function}        Wrapped handler
    */
-  private wrapInMediatorPromise<T extends IHasId>(method: string,
-                                                  fn: (this: Topics, ...params: any[]) => T | Promise.Thenable<T>):
+  private wrapInMediatorPromise<T extends { id?: string }>(this: Topics, method: string, fn: TopicHandlerFn<T>):
     (...params: any[]) => Promise.Thenable<T> {
 
     const self = this;
@@ -169,7 +166,14 @@ class Topics {
       self.mediator.publish(topic, error);
     }
     return function() {
-      return Promise.resolve(fn.apply(self, arguments))
+      const { _prefix, _entity, mediator } = self;
+      const context: ITopicHandlerContext = {
+        entity: _entity,
+        mediator,
+        prefix: _prefix,
+        topic: self.getTopic(method)
+      };
+      return Promise.resolve(fn.apply(context, arguments))
       .then(publishDone)
       .catch(publishError);
     };

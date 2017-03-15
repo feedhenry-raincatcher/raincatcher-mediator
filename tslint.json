@@ -11,6 +11,13 @@
             }
         ],
         "max-classes-per-file": [false],
-        "no-console": [true, "log"]
+        "no-console": [true, "log"],
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-pascal-case",
+            "allow-leading-underscore"
+        ]
     }
 }
