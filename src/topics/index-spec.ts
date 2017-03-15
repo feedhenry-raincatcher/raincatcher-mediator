@@ -25,7 +25,7 @@ describe('Topics', function () {
     });
 
     it('should take an optional topic UID', function() {
-      assert.equal(topics.getTopic('create', 'done', 'topicuid'), 'done');
+      assert.equal(topics.getTopic('create', 'done', 'topicuid'), 'done:wfm:cloud:user:create:topicuid');
     });
   });
 
