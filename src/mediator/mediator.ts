@@ -67,7 +67,7 @@ export default class Mediator extends Base implements IBaseMediator {
       topics.done += ':' + uid;
       topics.error += ':' + uid;
     } else {
-      console.log(`Warning: no status topics defined for ${topic}.`)
+      console.error(`Warning: no status topics defined for ${topic}.`);
     }
 
     if (!options.timeout) {

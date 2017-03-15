@@ -1,13 +1,8 @@
 {
     "extends": "tslint:recommended",
     "rules": {
-        "quotemark": [
-            true,
-            "single"
-        ],
-        "only-arrow-functions": [
-            false
-        ],
+        "quotemark": [true, "single"],
+        "only-arrow-functions": [false],
         "trailing-comma": [
             true,
             {
@@ -15,8 +10,7 @@
                 "singleline": "never"
             }
         ],
-        "max-classes-per-file": [
-            false
-        ]
+        "max-classes-per-file": [false],
+        "no-console": [true, "log"]
     }
 }
