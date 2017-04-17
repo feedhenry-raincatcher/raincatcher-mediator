@@ -1,6 +1,6 @@
 {
   "name": "fh-wfm-mediator",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "An implementation of the mediator pattern for use with WFM",
   "main": "lib/angular/mediator-ng.js",
   "repository": "https://github.com/feedhenry-raincatcher/raincatcher-mediator",
