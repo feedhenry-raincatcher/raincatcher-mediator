@@ -14,9 +14,9 @@
   "author": "Brian Leathem",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.4.7",
     "lodash": "^4.7.0",
-    "mediator-js": "^0.9.9",
-    "bluebird": "^3.4.7"
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -25,6 +25,8 @@
     "grunt-mocha-test": "^0.13.2",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^3.2.0",
-    "sinon": "^1.17.7"
+    "sinon": "^1.17.7",
+    "sinon-as-promised": "^4.0.3",
+    "sinon-chai": "^2.11.0"
   }
 }
