@@ -11,39 +11,90 @@ An implementation of the mediator pattern for use with RainCatcher modules.
 | `mediator#once( channel, callback )` | A one-time subscribtion to events in a channel |
 | `mediator#promise( channel )` | A promise-based API for `mediator#once` |
 
+
+### Subscription Callbacks
+
+When passing a `callback` to a `mediator.subscribe` function, it is necessary to return a `Promise` if the operation is asynchronous or if the response from the subscriber is required.
+
+```javascript
+var mediator = require('fh-wfm-mediator');
+var Promise = require('bluebird');
+
+mediator.subscribe("wfm:topic", function(topicData) {
+
+  return new Promise(function(resolve, reject) {
+    doSomeAyncFunction(topicData, function(err, result){
+      err ? reject(err) : resolve(result);
+    });
+  });
+
+});
+
+//The published topic will not resolve until all of the asynchronous subscribers have resolved / rejected
+//The `result` is the resolved value of the highest priority subscriber.
+mediator.publish("wfm:topic").then(function(result) {
+  console.log("All of the subscribers have resolved.", result);
+}).catch(function(err) {
+  console.error("An error occurred when executing topic wfm:topic", err);
+});
+
+```
+
 ### `Topics` utilities
 
 This module also provides a fluent, promise-based API for subscribing to convention and adhering to the request-response pattern used throughout the RainCatcher modules and available through `mediator#request`.
-Namely if a `data:read` topic that is used to provide a feature such as reading data from a remote source asyncronously, the result of the operation is by convention published in the `done:data:read` topic, and if it results in an error, it is published to the `error:data:read` topic.
-
-This utility module helps with enforcing the same namespace for a set of related topics without repeating string literals or constants, and adhering to the convention above. It is available under [`lib/topics`](./lib/topics/index.js) with jsdoc comments.
 
 #### Example
 
 ```javascript
 var mediator = require('fh-wfm-mediator');
-var Topics = require('fh-wfm-mediator/lib/topics');
+var Topic = require('fh-wfm-mediator/lib/topics');
 
-var topics = new Topics(mediator)
+//A set of topics for saving user data
+var userDataTopics = new Topic(mediator)
+  .prefix('wfm:data')
+  .entity('user')
+  .on('read', function(id) {
+    //asyncReadUser returns a Promise
+    return asyncReadUser(id);
+  }).on('update', function(userToUpdate) {
+    //asyncReadUser returns a Promise
+    return asyncUpdateUser(userToUpdate);
+  });
+
+
+new Topic(mediator)
   .prefix('wfm')
   .entity('user')
   // This will subscribe to wfm:user:read
-  // and publish results to done:wfm:user:read:{id}
-  // and errors to error:wfm:user:read:{id}
   .on('read', function(id) {
-    // will request to 'data:user:read'
-    return this.mediator.request(['data', this.entity, 'read'].join(':'), id);
-  })
-  // If you do not return a Promise from the handler function,
-  // you must manually publish the result to another topic so it can be consumed
-  .on('delete', function(id) {
-    var self = this;
-    this.mediator.request(this.entity + ':delete', id).then(function() {
-      self.mediator.publish('done:ui:user:deleted:' + id);
-    }).catch(function(e) {
-      self.mediator.publish('error:ui:user:deleted:' + id, e);
+    // will publish to 'wfm:user:data:read', which returns a Promise.
+    return userDataTopics.publish('read', id).then(function(user) {
+      //We have retrieved the user, we can apply any additional asynchronous operations we need when the resolving the user
+      return readUserGroupInformation(user.id).then(function(groupInformation) {
+        user.groupName = groupInformation.name;
+        return user;
+      });
     });
+  })
+  .on('update_location', function(id, location) {
+    //If we don't want to wait for the subscribers to resolve, just return null.
+    userDataTopics.publish('read', id).then(function(user) {
+      //We have retrieved the user, we can apply any additional asynchronous operations we need when the resolving the user
+      user.location = location;
+      userDataTopics.publish('update', user);
+    });
+
+    return null;
   });
+
+
+mediator.publish('wfm:user:read', "userid1234").then(function(user) {
+  //All of the subscribers have resolved.
+  console.log("User read with id " + user.id + " and group name " + user.groupName);
+}).catch(function(err) {
+  console.log("Error reading user information", err);
+});
 ```
 
 ## Usage in an Angular.js client
