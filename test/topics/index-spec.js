@@ -1,6 +1,6 @@
-const Topics = require('./index');
+const Topics = require('../../lib/topics/index');
 const assert = require('chai').assert;
-const mediator = require('../mediator');
+const mediator = require('../../lib/mediator');
 const Promise = require('bluebird');
 const sinon = require('sinon');
 
